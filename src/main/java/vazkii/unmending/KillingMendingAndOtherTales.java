@@ -1,5 +1,7 @@
 package vazkii.unmending;
 
+import java.util.Map;
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityXPOrb;
@@ -41,12 +43,26 @@ public class KillingMendingAndOtherTales {
 	public static void onAnvilUpdate(AnvilUpdateEvent event) {
 		ItemStack left = event.getLeft();
 		ItemStack right = event.getRight();
-		
-		if(left.isEmpty() || right.isEmpty())
+		ItemStack out = event.getOutput();
+
+		if(out.isEmpty() && (left.isEmpty() || right.isEmpty()))
 			return;
 		
 		boolean isMended = false;
 
+		Map<Enchantment, Integer> enchants = EnchantmentHelper.getEnchantments(left);
+		if(enchants.containsKey(Enchantments.MENDING)) {
+			enchants.remove(Enchantments.MENDING);
+			if(out.isEmpty()) {
+				out = left.copy();
+				if(out.isItemStackDamageable())
+					out.setItemDamage(0);
+				EnchantmentHelper.setEnchantments(enchants, out);
+			}
+			
+			isMended = true;
+		}
+		
 		if(right.getItem() == Items.ENCHANTED_BOOK) {
 	        NBTTagList enchList = ItemEnchantedBook.getEnchantments(right);
 	        for(int i = 0; i < enchList.tagCount(); i++) {
@@ -61,7 +77,6 @@ public class KillingMendingAndOtherTales {
 		}
 
 		if(isMended) {
-			ItemStack out = event.getOutput();
 			if(out.isEmpty())
 				out = left.copy();
 
