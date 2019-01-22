@@ -80,6 +80,9 @@ public class KillingMendingAndOtherTales {
 			if(out.isEmpty())
 				out = left.copy();
 
+			if(!out.hasTagCompound())
+				out.setTagCompound(new NBTTagCompound());
+			
 			out.getTagCompound().setInteger("RepairCost", 0);
 			event.setOutput(out);
 		}
