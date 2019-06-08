@@ -2,15 +2,14 @@ package vazkii.unmending;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Enchantments;
-import net.minecraft.init.Items;
+import net.minecraft.entity.item.ExperienceOrbEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.item.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -26,8 +25,8 @@ public class KillingMendingAndOtherTales {
 	// stolen from King Lemming thanks mate
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void killMending(PlayerPickupXpEvent event) {
-		EntityPlayer player = event.getEntityPlayer();
-		EntityXPOrb orb = event.getOrb();
+		PlayerEntity player = event.getEntityPlayer();
+		ExperienceOrbEntity orb = event.getOrb();
 
 		player.xpCooldown = 2;
 		player.onItemPickup(orb, 1);
@@ -70,7 +69,7 @@ public class KillingMendingAndOtherTales {
 			}
 
 			if (!out.hasTag()) {
-				out.setTag(new NBTTagCompound());
+				out.setTag(new CompoundNBT());
 			}
 
 			Map<Enchantment, Integer> enchOutput = EnchantmentHelper.getEnchantments(out);
@@ -85,7 +84,7 @@ public class KillingMendingAndOtherTales {
 
 			event.setOutput(out);
 			if (event.getCost() == 0) {
-				event.setCanceled(true);
+				event.setCost(1);
 			}
 		}
 	}
@@ -93,7 +92,7 @@ public class KillingMendingAndOtherTales {
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public static void onTooltip(ItemTooltipEvent event) {
-		TextComponentTranslation itemgotmodified = new TextComponentTranslation("unmending.repaired");
+		TranslationTextComponent itemgotmodified = new TranslationTextComponent("unmending.repaired");
 		itemgotmodified.getStyle().setColor(TextFormatting.YELLOW);
 		int repairCost = event.getItemStack().getRepairCost();
 		if (repairCost > 0) {
