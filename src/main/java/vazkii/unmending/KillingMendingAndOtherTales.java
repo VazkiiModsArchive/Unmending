@@ -25,7 +25,7 @@ public class KillingMendingAndOtherTales {
 	// stolen from King Lemming thanks mate
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void killMending(PlayerPickupXpEvent event) {
-		PlayerEntity player = event.getEntityPlayer();
+		PlayerEntity player = event.getPlayer();
 		ExperienceOrbEntity orb = event.getOrb();
 
 		player.xpCooldown = 2;
