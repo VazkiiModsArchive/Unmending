@@ -14,7 +14,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.event.entity.player.PlayerPickupXpEvent;
+import net.minecraftforge.event.entity.player.PlayerXpEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -24,7 +24,7 @@ public class KillingMendingAndOtherTales {
 
 	// stolen from King Lemming thanks mate
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public static void killMending(PlayerPickupXpEvent event) {
+	public static void killMending(PlayerXpEvent.PickupXp event) {
 		PlayerEntity player = event.getPlayer();
 		ExperienceOrbEntity orb = event.getOrb();
 
