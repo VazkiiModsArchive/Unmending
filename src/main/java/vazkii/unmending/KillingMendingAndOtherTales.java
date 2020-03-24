@@ -20,6 +20,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class KillingMendingAndOtherTales {
 
 	// stolen from King Lemming thanks mate
